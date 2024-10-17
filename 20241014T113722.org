@@ -1,0 +1,22 @@
+:PROPERTIES:
+:Created:  [2024-10-14 Mon 11:37]
+:Modified: [2024-10-17 Thu 14:23]
+:ID:       B04F0AA2-4F31-4DF3-9B6E-73F2E4B61316
+:END:
+#+title: Finding a binary tree host graph that minimizes the maximum edge length is NP-hard
+#+filetags: :draft:untagged:
+#+options: toc:nil
+
+* Formal statement
+Given a graph \(G\) and an integer \(k\), deciding whether there is a binary tree \(H\) such that the maximum edge length is at most \(k\) is NP-hard, even if \(G\) is a tree of height three [cite:@monien1985complexity].
+
+* Proof sketch
+The proof is via reduction from the 3-partition problem.
+Let \(B\) and \(a_{1},\dots,a_{3n}\) be a 3-partition instance.
+Guest graph \(G\) is constructed in a way that enforces host graph \(H\) to be a complete binary tree of height \(3k\).
+The tree levels \(ik+1.\dots,(i+1)k\) in \(H\) must be filled with the nodes from level \(i\) in \(G\) for \(i=0,1,2\).
+Additionally, \(G\) contains a star \(\alpha_{i}\) with \(a_{i}\) leaves for each \(i\in[3n]\).
+The idea is that for each \(i\), all leaves of \(\alpha_{i}\) must be the descendants of the same node \(v_{j}\), where \(j\in[n]\), and each \(v_{j}\) must have exactly \(B\) leaves from the stars as descendants.
+
+* References
+#+print_bibliography:

@@ -1,0 +1,81 @@
+:PROPERTIES:
+:Created:  [2024-09-06 Fri 09:34]
+:Modified: [2024-10-17 Thu 14:22]
+:ID:       A0795007-B661-433E-BA0C-7A42080DE480
+:END:
+#+title: Graph embedding problem
+#+filetags: :unlinked:untagged:
+#+options: toc:nil
+
+- [ ] Mention practical applications.
+- [ ] Extract Zettel on minimizing the maximum edge length?
+- [ ] Add section on bounds?
+- [ ] Add section on approximability and/or fixed-parameter tractability?
+
+
+Consider the following general optimization problem:
+Given two graphs \(G\) and \(H\), find an embedding \(f\colon V(G)\to V(H)\) that optimizes a specific objective.
+- Graph \(G\) is called the /guest graph/.
+- Graph \(H\) is called the /host graph/.
+  It can be either provided as part of the input or generated as part of the solution.
+  In the former case, it is often referred to as the /substrate/.
+- Embedding \(f\) is typically required to be injective.
+  We also require it to be surjective.
+  For a more general case where \(f\) can be neither injective nor surjective, refer to the virtual network embedding (VNE) problem.
+- We focus on two common objectives:
+  1. Minimizing the maximum edge length \(\max_{uv\in E(G)}\textrm{d}_{H}(f(u),f(v))\)
+  2. Minimizing the sum of edge lengths \(\sum_{uv\in E(G)}\textrm{d}_{H}(f(u),f(v))\)
+  Additional objectives are explored in the context of the VNE problem.
+
+* Complexity
+The graph embedding problem is NP-hard for general graphs \(G\) and \(H\), but can become fixed-parameter tractable or even polynomial-time solvable when restricted to specific graph classes.
+The complexity also depends on the chosen objective and whether the host graph \(H\) is given as part of the input.
+
+** Minimizing the maximum edge length
+
+*** Host graph as part of the output
+
+|             | Path                                | Binary tree    | Tree           | Graph          |
+|-------------+-------------------------------------+----------------+----------------+----------------|
+| Path        | Trivial                             | \(\downarrow\) | \(\downarrow\) | \(\downarrow\) |
+| Binary tree | NP-hard [cite:@garey1978complexity] | Trivial        | \(\downarrow\) | \(\downarrow\) |
+| Tree        | \(\uparrow\)                        | [[id:B04F0AA2-4F31-4DF3-9B6E-73F2E4B61316][NP-hard]]        | Trivial        | \(\downarrow\) |
+| Graph       | \(\uparrow\)                        | \(\uparrow\)   |                | Trivial        |
+
+** Minimizing the sum of edge lengths
+
+*** Host graph as part of the input
+
+|             | Path                                              | Binary tree     | Tree                                     | Graph                                   |
+|-------------+---------------------------------------------------+-----------------+------------------------------------------+-----------------------------------------|
+| Path        | Trivial                                           | \(\rightarrow\) | \(O(n)\) [cite:@pankratov2023complexity] | NP-hard [cite:@pankratov2023complexity] |
+| Binary tree | \(\downarrow\)                                    | [[id:23DD1CDE-6A7B-4EB5-8454-27C0E17A9CB8][?]]               |                                          | \(\uparrow\)                            |
+| Tree        | \(O(n^{\log 3/\log 2})\) [cite:@chung1984optimal] | [[id:23DD1CDE-6A7B-4EB5-8454-27C0E17A9CB8][?]]               | NP-hard                                  | \(\uparrow\)                            |
+| Graph       | NP-hard                                           | \(\leftarrow\)  | \(\uparrow\)                             | \(\uparrow\)                            |
+
+*** Host graph is part of the output
+
+|             | Path                                              | Binary tree    | Tree           | Graph          |
+|-------------+---------------------------------------------------+----------------+----------------+----------------|
+| Path        | Trivial                                           | \(\downarrow\) | \(\downarrow\) | \(\downarrow\) |
+| Binary tree | \(\downarrow\)                                    | Trivial        | \(\downarrow\) | \(\downarrow\) |
+| Tree        | \(O(n^{\log 3/\log 2})\) [cite:@chung1984optimal] | [[id:23DD1CDE-6A7B-4EB5-8454-27C0E17A9CB8][?]]              | Trivial        | \(\downarrow\) |
+| Graph       | NP-hard                                           | [[id:23DD1CDE-6A7B-4EB5-8454-27C0E17A9CB8][?]]              |                | Trivial        |
+
+* Relation to other computational problems
+The graph embedding problem is a special case of the following optimization problems.
+
+** [[id:C54C5F38-5BF5-414B-AEF4-6EE4B52286C0][Demand-aware network design problem]]
+The demand-aware network design problem is the following optimization problem:
+Given a set \(V\) of nodes and a weight function \(w\colon V\times V\to\mathbb{R}\), find a network \(N\) that minimizes the shortest weighted path length \(\sum_{u,v\in V}w(u,v)\textrm{d}_{N}(u,v)\).
+The graph embedding problem is a special case where \(V=V(G)\) and \(w\) is uniform over \(E(G)\).
+
+** Quadratic assignment problem
+The quadratic assignment problem is the following optimization problem:
+Given two sets \(P\) and \(L\), together with a weight function \(w\colon P\times P\to\mathbb{R}\) and a distance function \(d\colon L\times L\to\mathbb{R}\), find a bijection \(f\colon P\to L\) that minimizes the cost function \(\sum_{a,b\in P}w(a,b)d(f(a),f(b))\).
+The graph embedding problem is a special case where \(P=V(G)\), \(L=V(H)\), and the functions \(w\) and \(d\) are induced by the edges in \(G\) and the distances in \(H\), respectively.
+
+** VNE problem
+
+* References
+#+print_bibliography:

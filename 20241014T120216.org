@@ -1,0 +1,20 @@
+:PROPERTIES:
+:Created:  [2024-10-14 Mon 12:02]
+:Modified: [2024-10-17 Thu 14:25]
+:ID:       E85C2C7B-7E3F-4348-BF4C-C752FBA00A2C
+:END:
+#+title: Finding a demand-aware binary tree that minimizes the shortest weighted path length is NP-hard
+#+filetags: :draft:untagged:
+#+options: toc:nil
+
+* Formal statement
+Given an undirected demand graph \(G\) and an integer \(k\), deciding whether there is a binary tree \(H\) such that the shortest weighted path length is at most \(k\) is NP-hard [cite:@buzdalov2024search].
+
+* Proof sketch
+The proof is via reduction from the minimum linear arrangement (MLA) problem.
+Starting with an instance \(G'\) of MLA, we construct demand graph \(G\) by augmenting \(G'\) with a line \(L\) that has high demands.
+The endpoints of \(L\) are connected to each vertex in \(G'\).
+The idea is to enforce that \(H\) is a caterpillar with \(L\) forming its spine and the vertices of \(G'\) as its leaves.
+
+* References
+#+print_bibliography:

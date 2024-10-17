@@ -1,0 +1,65 @@
+:PROPERTIES:
+:Created:  [2024-10-15 Tue 13:15]
+:Modified: [2024-10-17 Thu 14:24]
+:ID:       23DD1CDE-6A7B-4EB5-8454-27C0E17A9CB8
+:END:
+#+title: Is embedding a graph in a binary tree such that the sum of edge lengths is minimized NP-hard?
+#+filetags: :draft:untagged:
+#+options: toc:nil
+
+* Proving membership in P
+
+** Related work
+
+*** Tree guest graphs and path host graphs
+If the guest graph is a tree and the host graph is a path, the problem is easy.
+
+* Proving NP-hardness
+
+** Related work
+
+*** Host graph as part of the input
+
+**** Arbitrary guest graphs
+If the guest graph can be any arbitrary graph, the problem is [[id:3B58DCFF-42CD-4154-8856-8738D51D82D5][NP-hard]].
+
+**** Tree host graphs
+If the host graph is allowed to be a tree, the problem is [[id:766AD2B8-8F64-4813-9B17-CB4F31748A47][NP-hard]] even if the guest graph is also a tree.
+
+*** Host graph as part of the output
+
+**** Minimizing the maximum edge length
+If the objective is to minimize the maximum edge length, the problem is [[id:B04F0AA2-4F31-4DF3-9B6E-73F2E4B61316][NP-hard]] even if the guest graph is a tree.
+
+Minimizing the maximum edge length appears to have significant advantages over minimizing the sum of edge lengths.
+Firstly, it provides a bound /for each edge/, allowing the inference of local substructures.
+For example, setting the degree of a vertex to \(3(2^{k}-1)\) enforces that the vertex and its neighborhood are embedded in a complete binary tree of height \(k\).
+In contrast, when minimizing the sum of edge lengths, it is not possible to infer such local substructures, as the cost depends on the entire embedding.
+
+Secondly, the details of the embedding are less critical:
+For an edge \(uv\), it suffices that vertex \(v\) is embedded /somewhere/ within the first \(k\) levels of the BFS-tree of \(u\).
+In contrast, minimizing the sum of edge lengths requires considering the exact level at which \(v\) is embedded, which complicates tightly bounding the cost.
+
+**** Weighted guest graphs
+For weighted guest graphs, the problem is [[id:E85C2C7B-7E3F-4348-BF4C-C752FBA00A2C][NP-hard]].
+
+Choosing polarizing weights for the guest graph can enforce that certain edges are also present in the host graph.
+
+** Insights
+
+*** Manipulate vertex degrees to enforce partial embeddings
+Manipulating vertex degrees appears to be the most effective way to enforce mappings between vertices or embeddings of substructures.
+Generally, high-degree vertices in the guest graph must map to high-degree vertices in the host graph.
+For binary tree host graphs, the corresponding statement is perhaps that high-degree vertices and their neighborhoods in the guest graph must embed in dense BFS-trees in the host graph.
+
+*** Reducing from the 3-partition problem
+The 3-partition problem is defined as follows:
+Given an integer \(B\) and a multiset \(S\) of \(3n\) integers between \(B/4\) and \(B/2\), is there a partition of \(S\) into \(n\) triplets such that the elements in each triplet sum up to \(B\)?
+
+**** Tightly bounding the cost is hard
+A significant challenge lies in tightly bounding the cost of a solution, especially for embedding element-gadgets in triplet-gadgets.
+For example, if triplet-gadgets are complete binary trees, determining the edge lengths /within/ element-gadgets is difficult.
+If triplet-gadgets are paths, determining the edge lengths /to/ the element-gadgets is challenging.
+
+* References
+#+print_bibliography:
